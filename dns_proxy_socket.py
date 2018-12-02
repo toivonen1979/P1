@@ -5,7 +5,7 @@ SERVER_ADDRESS, SERVER_PORT = '', 53
 RESOLVER_HOST, RESOLVER_PORT = '1.1.1.1', 853
 
 
-def send_message(_message, sock):
+def send_message(message, sock):
     sock.send(message)
     data = sock.recv(4096)
     return data
@@ -31,11 +31,8 @@ def connect():
     # CLOSE SOCKET CONNECTION
     return wrappedsocket
 
-message = b'\x00\x1c\x00B\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x06google\x03com\x00\x00\x01\x00\x01'
 
-conn = connect()
-response = send_message(message, conn)
-print(response)
+
 # Create a TCP/IP socket.
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -56,7 +53,7 @@ while True:
             print(data)
             if data:
                 conn = connect()
-                response = send_message(message, conn)
+                response = send_message(data, conn)
                 connection.sendall(response)
             else:
                 break
