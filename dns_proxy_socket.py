@@ -1,7 +1,9 @@
 import socket
 import ssl
+import os
 
-SERVER_ADDRESS, SERVER_PORT = '', 53
+
+SERVER_ADDRESS, SERVER_PORT = os.environ.get('SERVER_ADDRESS', ''), int(os.environ.get('SERVER_PORT', '53'))
 RESOLVER_HOST, RESOLVER_PORT = '1.1.1.1', 853
 
 
