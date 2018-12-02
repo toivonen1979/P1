@@ -1,5 +1,4 @@
-FROM centos:latest
-RUN yum install -y bind-utils
+FROM python:3
 COPY dns_proxy_socket.py /root/
 COPY ca-bundle.crt /root/
 EXPOSE 53
