@@ -14,7 +14,7 @@ def send_message(message, sock):
 def add_length(udp_payload):
     length = len(udp_payload)
     blength_lbl = length.to_bytes(2, byteorder='big')
-    tcp_payload = blength_lbl + udp_payload
+    tcp_payload = b''.join([blength_lbl, udp_payload])
     return tcp_payload
 
 
@@ -64,6 +64,7 @@ while True:
         payload = add_length(data)
         conn = connect()
         response = send_message(payload, conn)
+        conn.close()
         udp_response = remove_length(response)
         sent = server_sock.sendto(udp_response, address)
         print('sent {} bytes back to {}'.format(
