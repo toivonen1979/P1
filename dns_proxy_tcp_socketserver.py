@@ -13,6 +13,7 @@ def send_message(message, sock):
 def connect():
     # CREATE SOCKET
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print('socket created')
     sock.settimeout(100)
 
     # WRAP SOCKET
@@ -20,8 +21,10 @@ def connect():
     context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     context.verify_mode = ssl.CERT_REQUIRED
     context.load_verify_locations('ca-bundle.crt')
+    print('context created')
 
     wrappedSocket = context.wrap_socket(sock, server_hostname=HOST)
+    print('wrappedsocket created')
 
     # CONNECT AND PRINT REPLY
     wrappedSocket.connect((HOST, PORT))
@@ -45,9 +48,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         self.data = self.request.recv(4096)
         print("{} wrote:".format(self.client_address[0]))
         print(self.data)
-        self.conn = connect()
-        self.response = send_message(self.data, self.conn)
-        self.request.sendall(self.response)
+        conn = connect()
+        response = send_message(self.data, conn)
+        self.request.sendall(response)
 
 
 if __name__ == "__main__":
