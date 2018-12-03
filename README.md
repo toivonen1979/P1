@@ -49,7 +49,7 @@ the message could be cut off.
 The server should wait until the connection has been idle for a period on the order of two minutes before reclaiming a 
 connection. Future versions should implement the control logic to address this issue.
 + The general error handling has to be improved.
-##Implementation
+## Implementation
 - This program uses the Python threading module to spawn two Thread  subclasses. One for UDP requests and one for TCP requests.
 It has been considered a good approach to serve TCP and UDP clients in parallel.  
 
