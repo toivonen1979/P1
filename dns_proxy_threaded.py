@@ -7,7 +7,7 @@ from time import sleep
 
 SERVER_ADDRESS, SERVER_PORT = os.environ.get('SERVER_ADDRESS', ''), int(os.environ.get('SERVER_PORT', '53'))
 RESOLVER_HOST, RESOLVER_PORT = os.environ.get('RESOLVER_HOST', '8.8.8.8'), int(os.environ.get('RESOLVER_PORT', '853'))
-RETRY_TIMEOUT = .300
+RETRY_TIMEOUT = 2
 
 
 def add_length(udp_payload):
@@ -25,7 +25,7 @@ def remove_length(tcp_payload):
 def tls_connect():
     # CREATE SOCKET
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(100)
+    sock.settimeout(0.400)
 
     # WRAP SOCKET
     context = ssl.create_default_context()
