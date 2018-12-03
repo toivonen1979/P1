@@ -2,10 +2,12 @@ import threading
 import socket
 import ssl
 import os
+from time import sleep
 
 
 SERVER_ADDRESS, SERVER_PORT = os.environ.get('SERVER_ADDRESS', ''), int(os.environ.get('SERVER_PORT', '53'))
 RESOLVER_HOST, RESOLVER_PORT = os.environ.get('RESOLVER_HOST', '8.8.8.8'), int(os.environ.get('RESOLVER_PORT', '853'))
+RETRY_TIMEOUT = .300
 
 
 def add_length(udp_payload):
@@ -30,13 +32,14 @@ def tls_connect():
     context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     context.verify_mode = ssl.CERT_REQUIRED
     context.load_verify_locations('ca-bundle.crt')
-
     wrappedsocket = context.wrap_socket(sock, server_hostname=RESOLVER_HOST)
-
-    # CONNECT
-    wrappedsocket.connect((RESOLVER_HOST, RESOLVER_PORT))
-
-    # CLOSE SOCKET CONNECTION
+    while True:
+        try:
+            wrappedsocket.connect((RESOLVER_HOST, RESOLVER_PORT))
+            break
+        except OSError:
+            print('Connection failed. Retrying after {} s'.format(RETRY_TIMEOUT))
+            sleep(RETRY_TIMEOUT)
     return wrappedsocket
 
 
