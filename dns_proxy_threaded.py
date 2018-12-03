@@ -23,13 +23,10 @@ def remove_length(tcp_payload):
 
 
 def tls_connect():
-    # CREATE SOCKET
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(0.400)
-
-    # WRAP SOCKET
     context = ssl.create_default_context()
-    context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     context.verify_mode = ssl.CERT_REQUIRED
     context.load_verify_locations('ca-bundle.crt')
     wrappedsocket = context.wrap_socket(sock, server_hostname=RESOLVER_HOST)
