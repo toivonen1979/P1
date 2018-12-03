@@ -33,9 +33,8 @@ def tls_connect():
 
     wrappedsocket = context.wrap_socket(sock, server_hostname=RESOLVER_HOST)
 
-    # CONNECT AND PRINT REPLY
+    # CONNECT
     wrappedsocket.connect((RESOLVER_HOST, RESOLVER_PORT))
-    print(wrappedsocket.getpeercert())
 
     # CLOSE SOCKET CONNECTION
     return wrappedsocket
@@ -64,10 +63,8 @@ class TCPproxy(threading.Thread):
                 print('client connected:', client_address)
                 while True:
                     data = connection.recv(4096)
-                    print('received {!r}'.format(data))
                     print('received {} bytes from {}'.format(
                         len(data), client_address))
-                    print(data)
                     if data:
                         with tls_connect() as tls_conn:
                             response = send_message(data, tls_conn)
@@ -93,7 +90,6 @@ class UDPproxy (threading.Thread):
             data, address = server_sock.recvfrom(4096)
             print('received {} bytes from {}'.format(
                 len(data), address))
-            print(data)
             if data:
                 payload = add_length(data)
                 tls_conn = tls_connect()
