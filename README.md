@@ -38,7 +38,7 @@ Run a second nslookup in the second terminal to query the local port 53/udp
 ````
 nslookup -novc www.example.com 127.0.0.1
 ````
-##Known bugs and issues
+## Known bugs and issues
 + When the rate of requests/sec breaks the threshold of a few requests per second 
 there is a problem with the constructor of the TLS connection that raises a `ValueError: attempt to connect already-connected SSLSocket!`. 
 This is a known issue in Python 3.7 https://github.com/dpkp/kafka-python/issues/1549
