@@ -29,7 +29,7 @@ def tls_connect():
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     context.verify_mode = ssl.CERT_REQUIRED
     context.load_verify_locations('ca-bundle.crt')
-    wrappedsocket = context.wrap_socket(sock, server_hostname=RESOLVER_HOST)
+    wrappedsocket = context.wrap_socket(sock)
     while True:
         try:
             wrappedsocket.connect((RESOLVER_HOST, RESOLVER_PORT))
@@ -57,7 +57,7 @@ class TCPproxy(threading.Thread):
         server_sock.bind(self.server_address)
         server_sock.listen(1)
         while True:
-            print('waiting for a TCP connection')
+            print('\nwaiting for a TCP connection')
             connection, client_address = server_sock.accept()
             try:
                 print('client connected:', client_address)
