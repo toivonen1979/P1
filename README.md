@@ -68,7 +68,7 @@ Future versions should solve this problem reusing the TLS socket for more than o
  # Questions
  ## Security concerns
  A DNS query is involved in virtually any Internet activity.
- The content of the queries is sent in clear text. It's easily possible for a passive third person to 
+ The content of the queries is sent in clear text. It's easy for a third person to 
  see the content of  the DNS lookups. That information can reveal which sites we visit , to which domain we send 
  emails and other metadata. Any solution to avoid revealing that information while on transit 
  has to be completed with a list of providers with sounds privacy policies that prevent them from 
