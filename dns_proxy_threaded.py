@@ -3,6 +3,8 @@ import socket
 import ssl
 import os
 from time import sleep
+from sys import exit
+from sys import exc_info
 
 
 SERVER_ADDRESS, SERVER_PORT = os.environ.get('SERVER_ADDRESS', ''), int(os.environ.get('SERVER_PORT', '53'))
@@ -34,9 +36,12 @@ def tls_connect():
         try:
             wrappedsocket.connect((RESOLVER_HOST, RESOLVER_PORT))
             break
-        except OSError:
+        except (OSError):
             print('Connection failed. Retrying after {} s'.format(RETRY_TIMEOUT))
             sleep(RETRY_TIMEOUT)
+        except (ValueError):
+            print("Unexpected error:", exc_info()[0])
+            exit(1)
     return wrappedsocket
 
 
@@ -105,6 +110,7 @@ def main():
     thread_udp.start()
     thread_tcp = TCPproxy((SERVER_ADDRESS, SERVER_PORT))
     thread_tcp.start()
+
 
 
 if __name__ == "__main__":
