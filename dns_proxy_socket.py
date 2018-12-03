@@ -54,8 +54,8 @@ while True:
                 len(data), client_address))
             print(data)
             if data:
-                conn = connect()
-                response = send_message(data, conn)
+                with connect() as conn:
+                    response = send_message(data, conn)
                 connection.sendall(response)
             else:
                 break
