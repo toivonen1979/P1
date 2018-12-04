@@ -17,7 +17,8 @@ Run a container using the new image
 $  docker run --rm -d  -p 53:53/tcp -p 53:53/udp -t dnsproxy
 ```
 Now you should be able to make dns queries to localhost on port 53, either over tcp or udp
-##Options
+
+## Options
  The following options could be passed to the program as Environment Variables
 + **SERVER_ADDRESS** local ip address where the program listen for queries. By default is any.  
 `example: docker run --rm  -p 53:53/tcp -p 53:53/udp -e "SERVER_HOST=127.0.0.1" dnsproxy`
